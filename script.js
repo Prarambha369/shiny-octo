@@ -307,7 +307,7 @@ class FlappyBirdGame {
     }
 
     handleKeydown(e) {
-        if (e.code === "Space" || e.key === " " || e.keyCode === 32) {
+        if (e.code === "ArrowUp" || e.key === "ArrowUp" || e.keyCode === 38) {
             e.preventDefault()
             // Prevent accidental game over if space is pressed immediately after mouse/touch
             if (this._justFlapped) {

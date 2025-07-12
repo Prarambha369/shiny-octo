@@ -1,45 +1,57 @@
 # Shiny Octo - Flappy Bird: Beautiful Edition
 
-A modern, visually enhanced version of Flappy Bird built with HTML, CSS, and JavaScript.
-
-## Features
-- Responsive and beautiful UI
-- Smooth animations and unique visual effects per character
-- Distinct animated sprites: Classic Bird, Octo, and Shiny Octo
-- Rich backgrounds: animated sky or ocean depending on character
-- Score and high-score tracking (local storage)
-- Sound effects with mute option
-- Loading, start, countdown, and game over screens
-- Character selection overlay with live sprite previews
-- Mobile and desktop support
-
-## Recent Enhancements
-- **Actual sprite previews** in character selection (canvas-based)
-- **Red flash and particle effects** on death, tap, and score, unique per character
-- **Animated backgrounds**: sky with sun, hills, clouds; ocean with seabed, seaweed, fish, bubbles
-- **Bugfix**: Prevents accidental game over when pressing space after mouse/touch input
-- **Shiny Octo**: restored and unified as a single character option, with sparkly effects
-
-## Getting Started
-
-1. **Clone or Download** this repository.
-2. Open `index.html` in your web browser.
-
-No build or installation required.
-
-## File Overview
-- `index.html` — Main HTML file and game container
-- `styles.css` — Custom styles for layout and effects
-- `script.js` — Game logic and UI controls
-
-## Controls
-- **Tap** (mobile) or **Press SPACE** (desktop) to make your character fly
-- **Mute/Unmute** sound with the button in the corner
-- **Character selection**: Choose your sprite at the start or from the main menu
-
-## License
-See [LICENSE](LICENSE) for details.
+A stunning, modern, and open-source reimagining of Flappy Bird, built for the web with pure HTML, CSS, and JavaScript.
 
 ---
 
-Enjoy the game! If you have suggestions or find bugs, feel free to open an issue or PR.
+## 📸 Screenshots
+
+| Character Selection | Classic Bird | Shiny Octo | Octo |
+|:------------------:|:------------:|:----------:|:-----:|
+| ![Character Selection](https://hc-cdn.hel1.your-objectstorage.com/s/v3/b8f52be6d9ef5fdf5d601999d7d0635197213cc6_image.png) | ![Gameplay classic bird](https://hc-cdn.hel1.your-objectstorage.com/s/v3/c9a750e7b8fc4a70ce9680b4430b5759429770ce_image.png) | ![Gameplay shiny octo](https://hc-cdn.hel1.your-objectstorage.com/s/v3/cd90f036b9db005472c411fd990751039ca431bb_image.png) | ![Gameplay octo](https://hc-cdn.hel1.your-objectstorage.com/s/v3/8d6db324178778e22e18e71284ab85817823bdcb_image.png) |
+
+---
+
+## 🚀 Features
+- **Three Playable Characters**: Classic Bird, Octo, and Shiny Octo, each with unique animations and effects
+- **Live Sprite Previews**: Character selection UI shows real, animated previews
+- **Rich Animated Backgrounds**: Sky (bird) or ocean (octo/shiny octo) with sun, hills, fish, bubbles, seaweed, and more
+- **Distinct Particle Effects**: Jump, score, and death effects tailored per character
+- **Responsive UI**: Looks great on desktop and mobile
+- **Sound Effects**: With easy mute/unmute
+- **Persistent High Score**: Saved in your browser
+- **No Dependencies**: 100% client-side, no frameworks, no build step
+- **Fast and Lightweight**: Loads instantly, smooth gameplay
+
+## 🕹️ Controls
+- **Tap** (mobile) or **Press UP ARROW (↑)** (desktop) to make your character fly
+- **Mute/Unmute**: Use the sound button in the corner
+- **Switch Characters**: Choose your sprite at the start or from the main menu
+
+## 🛠️ Getting Started
+1. **Clone or Download** this repository
+2. Open `index.html` in your browser (Chrome, Firefox, Edge, Safari, or any modern browser)
+3. Play instantly! No install, no build, no internet required after download
+
+## 📁 Project Structure
+- `index.html` — Main HTML file
+- `styles.css` — Visual styles and layout
+- `script.js` — Game logic, animation, and UI
+- `README.md` — This file
+
+## ✨ Recent Highlights
+- Canvas-based live sprite previews in character selection
+- Unique effects and backgrounds for each character
+- Improved mobile and desktop experience
+- Bugfix: No more accidental game over on rapid input
+- Unified and enhanced Shiny Octo character
+
+## 🤝 Contributing
+Open to pull requests and suggestions! If you find a bug or have an idea, open an issue or PR.
+
+## 📜 License
+MIT — see [LICENSE](LICENSE) for details.
+
+---
+
+Enjoy Shiny Octo! Made with ❤️ for the open-source community.
