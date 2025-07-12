@@ -438,7 +438,9 @@ class FlappyBirdGame {
     }
 }
 
-// Initialize game when page loads
+// Hide loading screen when game is ready
 window.addEventListener("load", () => {
+    const loadingScreen = document.getElementById("loadingScreen")
+    if (loadingScreen) loadingScreen.style.display = "none"
     new FlappyBirdGame()
-})41
+})
