@@ -3,7 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flappy Bird - Beautiful Edition</title>
+    <title>Shiny Octo - Beautiful Edition</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<div class="game-container">
+    <div class="ui-overlay">
+        <div class="score-display">
+            <span id="score">0</span>
+        </div>
+        <div class="high-score-display">
+            <span>Best50
+                : <span id="highScore">0</span></span>
+        </div>
+    </div>
+
+    <canvas id="gameCanvas" width="400" height="600"></canvas>
+
+    <div class="game-over-screen" id="gameOverScreen">
+        <div class="game-over-content">
+            <h1>Game Over!</h1>
+            <div class="final-score">
+                <p>Score: <span id="finalScore">0</span></p>
+                <p>Best: <span id="finalHighScore">0</span></p>
+            </div>
+            <button id="restartBtn" class="restart-btn">Play Again</button>
+        </div>
+    </div>
+
+    <div class="start-screen" id="startScreen">
+        <div class="start-content">
+            <h1 class="game-title">Flappy Bird</h1>
+            <p class="game-subtitle">Beautiful Edition</p>
+            <button id="startBtn" class="start-btn">Start Game</button>
+            <p class="instructions">Tap or press SPACE to fly!</p>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="muteBtn" class="mute-btn">🔊</button>
+    </div>
+</div>
