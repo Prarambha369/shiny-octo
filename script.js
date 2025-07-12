@@ -111,7 +111,7 @@ class FlappyBirdGame {
     }
 
     bindEvents() {
-        this.startBtn.addEventListener("click", () => this.startGame())
+        this.startBtn.addEventListener("click", () => this.handleCountdownStart())
         this.restartBtn.addEventListener("click", () => this.restartGame())
         this.muteBtn.addEventListener("click", () => this.toggleSound())
 
@@ -129,6 +129,39 @@ class FlappyBirdGame {
         })
     }
 
+    handleCountdownStart() {
+        // Hide start screen, show countdown
+        this.startScreen.classList.add("hidden")
+        const countdownOverlay = document.getElementById("countdownOverlay")
+        const countdownContent = document.getElementById("countdownContent")
+        countdownOverlay.style.display = "flex"
+        let count = 5
+        countdownContent.textContent = count
+        countdownContent.style.animation = "none"
+        void countdownContent.offsetWidth // force reflow for animation
+        countdownContent.style.animation = null
+        const tick = () => {
+            if (count > 1) {
+                count--
+                countdownContent.textContent = count
+                countdownContent.style.animation = "none"
+                void countdownContent.offsetWidth
+                countdownContent.style.animation = null
+                setTimeout(tick, 1000)
+            } else {
+                countdownContent.textContent = "Start!"
+                countdownContent.style.animation = "none"
+                void countdownContent.offsetWidth
+                countdownContent.style.animation = null
+                setTimeout(() => {
+                    countdownOverlay.style.display = "none"
+                    this.startGame()
+                }, 800)
+            }
+        }
+        setTimeout(tick, 1000)
+    }
+
     handleInput() {
         if (this.gameState === "playing") {
             this.bird.velocity = this.bird.jumpPower
@@ -139,7 +172,6 @@ class FlappyBirdGame {
 
     startGame() {
         this.gameState = "playing"
-        this.startScreen.classList.add("hidden")
         this.resetGame()
     }
 

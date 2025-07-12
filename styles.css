@@ -156,6 +156,62 @@ body {
     display: none !important;
 }
 
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 30, 60, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    flex-direction: column;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #764ba2;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+.countdown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 30, 60, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.countdown-content {
+    color: #fff;
+    font-size: 6rem;
+    font-weight: bold;
+    text-shadow: 0 0 24px #764ba2, 0 0 48px #fff;
+    animation: pop 0.5s;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 @keyframes gradientShift {
     0% {
         background-position: 0% 50%;
@@ -166,4 +222,10 @@ body {
     100% {
         background-position: 0% 50%;
     }
+}
+
+@keyframes pop {
+    0% { transform: scale(0.7); opacity: 0.5; }
+    60% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
 }

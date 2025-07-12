@@ -8,6 +8,13 @@
 </head>
 <body>
 <div class="game-container">
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
     <div class="ui-overlay">
         <div class="score-display">
             <span id="score">0</span>
@@ -38,6 +45,11 @@
             <button id="startBtn" class="start-btn">Start Game</button>
             <p class="instructions">Tap or press SPACE to fly!</p>
         </div>
+    </div>
+
+    <!-- Countdown Overlay -->
+    <div class="countdown-overlay" id="countdownOverlay" style="display:none;">
+        <div class="countdown-content" id="countdownContent">5</div>
     </div>
 
     <div class="controls">
