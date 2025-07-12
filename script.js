@@ -130,49 +130,51 @@ class FlappyBirdGame {
     }
 
     handleCountdownStart() {
-        // Hide start screen, show countdown
+        // Hide start screen, reset game state, and show game UI
         this.startScreen.classList.add("hidden")
-        const countdownOverlay = document.getElementById("countdownOverlay")
-        const countdownContent = document.getElementById("countdownContent")
-        countdownOverlay.style.display = "flex"
-        let count = 5
-        countdownContent.textContent = count
-        countdownContent.style.animation = "none"
-        void countdownContent.offsetWidth // force reflow for animation
-        countdownContent.style.animation = null
-        const tick = () => {
-            if (count > 1) {
-                count--
-                countdownContent.textContent = count
-                countdownContent.style.animation = "none"
-                void countdownContent.offsetWidth
-                countdownContent.style.animation = null
-                setTimeout(tick, 1000)
-            } else {
-                countdownContent.textContent = "Start!"
-                countdownContent.style.animation = "none"
-                void countdownContent.offsetWidth
-                countdownContent.style.animation = null
-                setTimeout(() => {
-                    countdownOverlay.style.display = "none"
-                    this.startGame()
-                }, 800)
+        this.gameState = "countdown"
+        this.resetGame() // Reset bird, pipes, score, etc.
+        // Wait for UI to render, then show countdown
+        requestAnimationFrame(() => {
+            const countdownOverlay = document.getElementById("countdownOverlay")
+            const countdownContent = document.getElementById("countdownContent")
+            countdownOverlay.style.display = "flex"
+            let count = 5
+            countdownContent.textContent = count
+            countdownContent.style.animation = "none"
+            void countdownContent.offsetWidth // force reflow for animation
+            countdownContent.style.animation = null
+            const tick = () => {
+                if (count > 1) {
+                    count--
+                    countdownContent.textContent = count
+                    countdownContent.style.animation = "none"
+                    void countdownContent.offsetWidth
+                    countdownContent.style.animation = null
+                    setTimeout(tick, 1000)
+                } else {
+                    countdownContent.textContent = "Start!"
+                    countdownContent.style.animation = "none"
+                    void countdownContent.offsetWidth
+                    countdownContent.style.animation = null
+                    setTimeout(() => {
+                        countdownOverlay.style.display = "none"
+                        this.startGame()
+                    }, 800)
+                }
             }
-        }
-        setTimeout(tick, 1000)
-    }
-
-    handleInput() {
-        if (this.gameState === "playing") {
-            this.bird.velocity = this.bird.jumpPower
-            this.sounds.jump()
-            this.createParticles(this.bird.x, this.bird.y, "#FFD700", 5)
-        }
+            setTimeout(tick, 1000)
+        })
     }
 
     startGame() {
         this.gameState = "playing"
-        this.resetGame()
+        // Don't call resetGame here; it was already called before countdown
+        // Make sure overlays are hidden
+        this.startScreen.classList.add("hidden")
+        this.gameOverScreen.classList.add("hidden")
+        // Focus the canvas for input
+        this.canvas.focus && this.canvas.focus()
     }
 
     restartGame() {
@@ -213,6 +215,14 @@ class FlappyBirdGame {
                 color: color,
                 size: Math.random() * 4 + 2,
             })
+        }
+    }
+
+    handleInput() {
+        if (this.gameState === "playing") {
+            this.bird.velocity = this.bird.jumpPower
+            this.sounds.jump()
+            this.createParticles(this.bird.x, this.bird.y, "#FFD700", 5)
         }
     }
 
