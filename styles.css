@@ -10,8 +10,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Changed from min-height */
-    width: 100vw; /* Added */
+    height: 100vh;
+    width: 100vw;
     overflow: hidden;
 }
 
@@ -19,15 +19,15 @@ body {
     position: relative;
     overflow: hidden;
     background: linear-gradient(180deg, #87ceeb 0%, #98fb98 100%);
-    width: 100vw; /* Added */
-    height: 100vh; /* Added */
+    width: 100vw;
+    height: 100vh;
 }
 
 #gameCanvas {
     display: block;
     background: linear-gradient(180deg, #87ceeb 0%, #98fb98 100%);
-    width: 100%; /* Added */
-    height: 100%; /* Added */
+    width: 100%;
+    height: 100%;
 }
 
 .ui-overlay {
@@ -115,6 +115,26 @@ body {
 .restart-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.main-menu-btn {
+    background: #fff;
+    color: #2e2e2e;
+    border: 2px solid #00eaff;
+    border-radius: 16px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px 26px;
+    margin-left: 18px;
+    cursor: pointer;
+    box-shadow: 0 2px 16px #00eaff22;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.main-menu-btn:hover {
+    background: #00eaff;
+    color: #fff;
+    border: 2px solid #fff;
 }
 
 .instructions {
@@ -205,6 +225,105 @@ body {
     font-weight: bold;
     text-shadow: 0 0 24px #764ba2, 0 0 48px #fff;
     animation: pop 0.5s;
+}
+
+.sprite-select-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 30, 60, 0.95);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+}
+
+.sprite-select-content {
+    background: rgba(255,255,255,0.1);
+    border-radius: 18px;
+    padding: 40px 30px 30px 30px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    text-align: center;
+}
+
+.sprite-options {
+    display: flex;
+    gap: 40px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.sprite-btn {
+    background: transparent;
+    border: 2px solid #fff;
+    border-radius: 18px;
+    padding: 18px 20px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: border 0.2s, box-shadow 0.2s;
+    font-size: 18px;
+    color: #fff;
+    min-width: 120px;
+    outline: none;
+}
+
+.sprite-btn:hover, .sprite-btn.selected {
+    border: 2px solid #00eaff;
+    box-shadow: 0 0 16px #00eaff55;
+}
+
+.sprite-preview {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 12px;
+    background: #222;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.octo-preview {
+    background: linear-gradient(135deg, #a18fff 40%, #00eaff 100%);
+    box-shadow: 0 0 18px #00eaff88;
+}
+
+.bird-preview {
+    background: linear-gradient(135deg, #ffec7d 40%, #ff8c00 100%);
+    box-shadow: 0 0 18px #ffb30088;
+}
+
+.sprite-preview.shinycoto-preview {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 30%, #f7eaff 0%, #b6a0ff 50%, #7ee3ff 80%, #5e17eb 100%);
+    box-shadow: 0 0 10px 2px #fff8, 0 0 30px 10px #7ee3ff44;
+    position: relative;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sprite-preview.shinycoto-preview::after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    background: radial-gradient(circle, #fff 0%, #fff0 80%);
+    border-radius: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 @keyframes spin {
