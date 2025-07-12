@@ -219,6 +219,7 @@ class FlappyBirdGame {
                 hue: Math.random() * 360,
             })
         }
+
         // Update pipe positions
         for (let i = this.pipes.length - 1; i >= 0; i--) {
             const pipe = this.pipes[i]
@@ -331,3 +332,113 @@ class FlappyBirdGame {
         })
     }
 
+    drawBird() {
+        this.ctx.save()
+        this.ctx.translate(this.bird.x + this.bird.width / 2, this.bird.y + this.bird.height / 2)
+        this.ctx.rotate(this.bird.rotation)
+
+        // Bird body - more oval, vibrant orange
+        const bodyGradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 25)
+        bodyGradient.addColorStop(0, "#FF8C00") // Darker orange
+        bodyGradient.addColorStop(0.7, "#FFA500") // Medium orange
+        bodyGradient.addColorStop(1, "#FFD700") // Lighter orange
+
+        this.ctx.fillStyle = bodyGradient
+        this.ctx.beginPath()
+        this.ctx.ellipse(0, 0, this.bird.width / 2 + 5, this.bird.height / 2 + 2, 0, 0, Math.PI * 2) // Slightly larger, more oval
+        this.ctx.fill()
+
+        // Wing animation - more distinct red
+        const wingOffset = Math.sin(this.bird.wingPhase) * 7 // Increased wing flap motion
+        this.ctx.fillStyle = "#FF4500" // Brighter red
+        this.ctx.beginPath()
+        this.ctx.ellipse(-10, wingOffset, 10, 15, 0, 0, Math.PI * 2) // Larger, more pronounced wing
+        this.ctx.fill()
+
+        // Eye - simplified
+        this.ctx.fillStyle = "white"
+        this.ctx.beginPath()
+        this.ctx.arc(10, -5, 5, 0, Math.PI * 2) // Slightly larger eye
+        this.ctx.fill()
+
+        this.ctx.fillStyle = "black"
+        this.ctx.beginPath()
+        this.ctx.arc(12, -5, 2.5, 0, Math.PI * 2) // Smaller pupil
+        this.ctx.fill()
+
+        // Beak - sharper
+        this.ctx.fillStyle = "#FFD700" // Yellowish beak
+        this.ctx.beginPath()
+        this.ctx.moveTo(15, 0)
+        this.ctx.lineTo(25, -3)
+        this.ctx.lineTo(25, 3)
+        this.ctx.closePath()
+        this.ctx.fill()
+
+        this.ctx.restore()
+    }
+
+    drawPipes() {
+        this.pipes.forEach((pipe) => {
+            const gradient = this.ctx.createLinearGradient(pipe.x, 0, pipe.x + this.pipeWidth, 0)
+            gradient.addColorStop(0, `hsl(${pipe.hue}, 70%, 50%)`)
+            gradient.addColorStop(0.5, `hsl(${pipe.hue}, 70%, 60%)`)
+            gradient.addColorStop(1, `hsl(${pipe.hue}, 70%, 40%)`)
+
+            this.ctx.fillStyle = gradient
+
+            // Top pipe body
+            this.ctx.fillRect(pipe.x, 0, this.pipeWidth, pipe.topHeight)
+
+            // Top pipe cap - simplified
+            this.ctx.fillRect(pipe.x - 5, pipe.topHeight - 25, this.pipeWidth + 10, 25) // Wider and taller cap
+
+            // Bottom pipe body
+            this.ctx.fillRect(pipe.x, pipe.bottomY, this.pipeWidth, this.canvas.height - pipe.bottomY)
+
+            // Bottom pipe cap - simplified
+            this.ctx.fillRect(pipe.x - 5, pipe.bottomY, this.pipeWidth + 10, 25) // Wider and taller cap
+
+            // Pipe highlights - subtle
+            this.ctx.fillStyle = `hsl(${pipe.hue}, 70%, 75%)` // Lighter highlight
+            this.ctx.fillRect(pipe.x + 3, 0, 3, pipe.topHeight) // Thinner highlight
+            this.ctx.fillRect(pipe.x + 3, pipe.bottomY, 3, this.canvas.height - pipe.bottomY) // Thinner highlight
+        })
+    }
+
+    drawParticles() {
+        this.particles.forEach((particle) => {
+            this.ctx.save()
+            this.ctx.globalAlpha = particle.life
+            this.ctx.fillStyle = particle.color
+            this.ctx.beginPath()
+            this.ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2)
+            this.ctx.fill()
+            this.ctx.restore()
+        })
+    }
+
+    render() {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+        this.drawBackground()
+        this.drawPipes()
+        this.drawBird()
+        this.drawParticles()
+    }
+
+    gameLoop() {
+        this.updateBird()
+        this.updatePipes()
+        this.updateParticles()
+        this.updateClouds()
+        this.render()
+
+        requestAnimationFrame(() => this.gameLoop())
+    }
+}
+
+// Initialize game when page loads
+window.addEventListener("load", () => {
+    new FlappyBirdGame()
+})41
