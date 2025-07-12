@@ -225,6 +225,7 @@ class FlappyBirdGame {
         this._destroyed = false
 
         this.redFlash = 0 // 0: no flash, 1: full flash
+        this._justFlapped = false
     }
 
     resizeCanvas() {
@@ -308,6 +309,11 @@ class FlappyBirdGame {
     handleKeydown(e) {
         if (e.code === "Space" || e.key === " " || e.keyCode === 32) {
             e.preventDefault()
+            // Prevent accidental game over if space is pressed immediately after mouse/touch
+            if (this._justFlapped) {
+                this._justFlapped = false
+                return
+            }
             if (this.gameState === "playing") {
                 this.handleInput()
             } else if (this.gameState === "gameOver") {
@@ -321,6 +327,8 @@ class FlappyBirdGame {
     handleCanvasClick() {
         if (this.gameState === "playing") {
             this.handleInput()
+            this._justFlapped = true
+            setTimeout(() => { this._justFlapped = false }, 120)
         }
     }
 
@@ -328,6 +336,8 @@ class FlappyBirdGame {
         e.preventDefault()
         if (this.gameState === "playing") {
             this.handleInput()
+            this._justFlapped = true
+            setTimeout(() => { this._justFlapped = false }, 120)
         }
     }
 
@@ -869,8 +879,8 @@ class FlappyBirdGame {
             this.ctx.fill()
             this.ctx.fillStyle = "#222"
             this.ctx.beginPath()
-            this.ctx.ellipse(12, -5, 2.5, 2.5 * blink, 0, 0, Math.PI * 2)
-            this.ctx.ellipse(-8, -5, 2.5, 2.5 * blink, 0, 0, Math.PI * 2)
+            this.ctx.arc(12, -5, 2.5, 2.5 * blink, 0, 0, Math.PI * 2)
+            this.ctx.arc(-8, -5, 2.5, 2.5 * blink, 0, 0, Math.PI * 2)
             this.ctx.fill()
             this.ctx.save()
             this.ctx.globalAlpha = 0.7
