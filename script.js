@@ -219,3 +219,115 @@ class FlappyBirdGame {
                 hue: Math.random() * 360,
             })
         }
+        // Update pipe positions
+        for (let i = this.pipes.length - 1; i >= 0; i--) {
+            const pipe = this.pipes[i]
+            pipe.x -= this.pipeSpeed
+
+            // Check for scoring
+            if (!pipe.scored && pipe.x + this.pipeWidth < this.bird.x) {
+                pipe.scored = true
+                this.score++
+                this.sounds.score()
+                this.createParticles(this.bird.x, this.bird.y, "#00FF00", 8)
+                this.updateUI()
+
+                if (this.score > this.highScore) {
+                    this.highScore = this.score
+                    localStorage.setItem("flappyHighScore", this.highScore)
+                }
+            }
+
+            // Remove off-screen pipes
+            if (pipe.x + this.pipeWidth < 0) {
+                this.pipes.splice(i, 1)
+            }
+
+            // Collision detection
+            if (this.checkCollision(pipe)) {
+                this.gameOver()
+            }
+        }
+    }
+
+    checkCollision(pipe) {
+        const birdLeft = this.bird.x
+        const birdRight = this.bird.x + this.bird.width
+        const birdTop = this.bird.y
+        const birdBottom = this.bird.y + this.bird.height
+
+        const pipeLeft = pipe.x
+        const pipeRight = pipe.x + this.pipeWidth
+
+        if (birdRight > pipeLeft && birdLeft < pipeRight) {
+            if (birdTop < pipe.topHeight || birdBottom > pipe.bottomY) {
+                return true
+            }
+        }
+
+        return false
+    }
+
+    updateParticles() {
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const particle = this.particles[i]
+            particle.x += particle.vx
+            particle.y += particle.vy
+            particle.life -= particle.decay
+            particle.vy += 0.1 // gravity
+
+            if (particle.life <= 0) {
+                this.particles.splice(i, 1)
+            }
+        }
+    }
+
+    updateClouds() {
+        this.clouds.forEach((cloud) => {
+            cloud.x -= cloud.speed
+            if (cloud.x + cloud.size < 0) {
+                cloud.x = this.canvas.width + cloud.size
+                cloud.y = Math.random() * (this.canvas.height / 3) + 50 // Keep clouds in upper third
+            }
+        })
+    }
+
+    gameOver() {
+        if (this.gameState === "gameOver") return
+
+        this.gameState = "gameOver"
+        this.sounds.gameOver()
+        this.createParticles(this.bird.x, this.bird.y, "#FF0000", 15)
+
+        this.finalScoreElement.textContent = this.score
+        this.finalHighScoreElement.textContent = this.highScore
+
+        setTimeout(() => {
+            this.gameOverScreen.classList.remove("hidden")
+        }, 500)
+    }
+
+    drawBackground() {
+        // Animated gradient background
+        const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
+        gradient.addColorStop(0, "#87CEEB")
+        gradient.addColorStop(0.7, "#98FB98")
+        gradient.addColorStop(1, "#90EE90")
+
+        this.ctx.fillStyle = gradient
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
+
+        // Draw clouds
+        this.clouds.forEach((cloud) => {
+            this.ctx.save()
+            this.ctx.globalAlpha = cloud.opacity
+            this.ctx.fillStyle = "white"
+            this.ctx.beginPath()
+            this.ctx.arc(cloud.x, cloud.y, cloud.size, 0, Math.PI * 2)
+            this.ctx.arc(cloud.x + cloud.size * 0.5, cloud.y, cloud.size * 0.8, 0, Math.PI * 2)
+            this.ctx.arc(cloud.x - cloud.size * 0.5, cloud.y, cloud.size * 0.8, 0, Math.PI * 2)
+            this.ctx.fill()
+            this.ctx.restore()
+        })
+    }
+
