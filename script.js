@@ -180,6 +180,17 @@ class FlappyBirdGame {
         this.canvas.width = window.innerWidth
         this.canvas.height = window.innerHeight
 
+        this.birdColors = [
+            { stops: ["#FF8C00", "#FFA500", "#FFD700"], wing: "#FF4500" }, 
+            { stops: ["#FF0000", "#FF6666", "#FFD1DC"], wing: "#B22222" }, 
+            { stops: ["#00FF00", "#7CFC00", "#228B22"], wing: "#228B22" }, 
+            { stops: ["#0000FF", "#1E90FF", "#87CEEB"], wing: "#191970" }, 
+            { stops: ["#000000", "#434343", "#888888"], wing: "#222" }, 
+            { stops: ["#8B4513", "#A0522D", "#DEB887"], wing: "#654321" }, 
+            { stops: ["#FFFFFF", "#F0F0F0", "#E0E0E0"], wing: "#B0B0B0" }, 
+            { stops: ["#FFFF00", "#FFFACD", "#FFD700"], wing: "#FFD700" }, 
+        ];
+        const colorSet = this.birdColors[Math.floor(Math.random() * this.birdColors.length)];
         this.bird = {
             x: 100,
             y: this.canvas.height / 2,
@@ -190,6 +201,7 @@ class FlappyBirdGame {
             jumpPower: -7,
             rotation: 0,
             wingPhase: 0,
+            colorSet: colorSet
         }
 
         this.pipes = []
@@ -224,8 +236,13 @@ class FlappyBirdGame {
         window.onresize = () => this.resizeCanvas()
         this._destroyed = false
 
-        this.redFlash = 0 // 0: no flash, 1: full flash
-        this._justFlapped = false
+        this.redFlash = 0 
+
+    }
+
+    randomizeBirdColor() {
+        const idx = Math.floor(Math.random() * this.birdColors.length);
+        if (this.bird) this.bird.colorSet = this.birdColors[idx];
     }
 
     resizeCanvas() {
@@ -309,11 +326,6 @@ class FlappyBirdGame {
     handleKeydown(e) {
         if (e.code === "ArrowUp" || e.key === "ArrowUp" || e.keyCode === 38) {
             e.preventDefault()
-            // Prevent accidental game over if space is pressed immediately after mouse/touch
-            if (this._justFlapped) {
-                this._justFlapped = false
-                return
-            }
             if (this.gameState === "playing") {
                 this.handleInput()
             } else if (this.gameState === "gameOver") {
@@ -327,8 +339,6 @@ class FlappyBirdGame {
     handleCanvasClick() {
         if (this.gameState === "playing") {
             this.handleInput()
-            this._justFlapped = true
-            setTimeout(() => { this._justFlapped = false }, 120)
         }
     }
 
@@ -336,8 +346,6 @@ class FlappyBirdGame {
         e.preventDefault()
         if (this.gameState === "playing") {
             this.handleInput()
-            this._justFlapped = true
-            setTimeout(() => { this._justFlapped = false }, 120)
         }
     }
 
@@ -426,6 +434,7 @@ class FlappyBirdGame {
         this.bird.y = this.canvas.height / 2
         this.bird.velocity = 0
         this.bird.rotation = 0
+        this.randomizeBirdColor(); 
         this.pipes = []
         this.particles = []
         this.score = 0
@@ -612,10 +621,10 @@ class FlappyBirdGame {
     drawBackground() {
         if (this.spriteType === "bird") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#87CEEB") // light blue
-            gradient.addColorStop(0.5, "#b9eaff") // pale blue
-            gradient.addColorStop(0.8, "#ffeedd") // warm near ground
-            gradient.addColorStop(1, "#a7d28d") // soft green for ground
+            gradient.addColorStop(0, "#87CEEB") 
+            gradient.addColorStop(0.5, "#b9eaff") 
+            gradient.addColorStop(0.8, "#ffeedd") 
+            gradient.addColorStop(1, "#a7d28d") 
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -654,10 +663,10 @@ class FlappyBirdGame {
             })
         } else if (this.spriteType === "octo") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#0f224e") // deep blue top
-            gradient.addColorStop(0.4, "#1976a5") // mid blue
-            gradient.addColorStop(0.7, "#36c1e6") // turquoise
-            gradient.addColorStop(1, "#e0b87b") // seabed sand
+            gradient.addColorStop(0, "#0f224e") 
+            gradient.addColorStop(0.4, "#1976a5") 
+            gradient.addColorStop(0.7, "#36c1e6") 
+            gradient.addColorStop(1, "#e0b87b") 
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -728,10 +737,10 @@ class FlappyBirdGame {
             }
         } else if (this.spriteType === "shinycoto") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#0f224e") // deep blue top
-            gradient.addColorStop(0.4, "#1976a5") // mid blue
-            gradient.addColorStop(0.7, "#36c1e6") // turquoise
-            gradient.addColorStop(1, "#e0b87b") // seabed sand
+            gradient.addColorStop(0, "#0f224e") 
+            gradient.addColorStop(0.4, "#1976a5") 
+            gradient.addColorStop(0.7, "#36c1e6") 
+            gradient.addColorStop(1, "#e0b87b") 
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -808,10 +817,11 @@ class FlappyBirdGame {
             this.ctx.save()
             this.ctx.translate(this.bird.x + this.bird.width / 2, this.bird.y + this.bird.height / 2)
             this.ctx.rotate(this.bird.rotation)
+            const colorSet = this.bird.colorSet || this.birdColors[0];
             const bodyGradient = this.ctx.createRadialGradient(0, 0, 0, 0, 0, 25)
-            bodyGradient.addColorStop(0, "#FF8C00")
-            bodyGradient.addColorStop(0.7, "#FFA500")
-            bodyGradient.addColorStop(1, "#FFD700")
+            bodyGradient.addColorStop(0, colorSet.stops[0])
+            bodyGradient.addColorStop(0.7, colorSet.stops[1])
+            bodyGradient.addColorStop(1, colorSet.stops[2])
             this.ctx.fillStyle = bodyGradient
             this.ctx.beginPath()
             this.ctx.ellipse(0, 0, this.bird.width / 2 + 5, this.bird.height / 2 + 2, 0, 0, Math.PI * 2)
@@ -819,7 +829,7 @@ class FlappyBirdGame {
             const flap = Math.sin(this.bird.wingPhase * 1.6) * 10
             this.ctx.save()
             this.ctx.rotate(-0.3 + flap * 0.02)
-            this.ctx.fillStyle = "#FF4500"
+            this.ctx.fillStyle = colorSet.wing
             this.ctx.beginPath()
             this.ctx.ellipse(-10, 8 + flap, 10, 15, 0, 0, Math.PI * 2)
             this.ctx.fill()
