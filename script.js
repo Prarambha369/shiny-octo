@@ -167,6 +167,36 @@ window.addEventListener("load", () => {
     }
     selectSprite(selectedSprite)
     showSpriteSelect()
+
+    function setMusicButtonState() {
+        const muteBtn = document.getElementById("muteBtn")
+        if (!muteBtn) return
+        muteBtn.textContent = gameInstance && gameInstance.musicEnabled ? "🔊" : "🔇"
+    }
+
+    // Music button toggles background music
+    const muteBtn = document.getElementById("muteBtn")
+    if (muteBtn) {
+        muteBtn.onclick = () => {
+            if (gameInstance) {
+                gameInstance.toggleBackgroundMusic()
+                setMusicButtonState()
+            }
+        }
+    }
+
+    function tryPlayMusic() {
+        const bgMusic = document.getElementById("bgMusic")
+        if (bgMusic) {
+            bgMusic.volume = 0.3
+            bgMusic.loop = true
+            bgMusic.play().catch(() => {
+
+            })
+        }
+    }
+    document.body.addEventListener("click", tryPlayMusic, { once: true })
+    document.body.addEventListener("keydown", tryPlayMusic, { once: true })
 })
 
 class FlappyBirdGame {
@@ -181,14 +211,14 @@ class FlappyBirdGame {
         this.canvas.height = window.innerHeight
 
         this.birdColors = [
-            { stops: ["#FF8C00", "#FFA500", "#FFD700"], wing: "#FF4500" }, 
-            { stops: ["#FF0000", "#FF6666", "#FFD1DC"], wing: "#B22222" }, 
-            { stops: ["#00FF00", "#7CFC00", "#228B22"], wing: "#228B22" }, 
-            { stops: ["#0000FF", "#1E90FF", "#87CEEB"], wing: "#191970" }, 
-            { stops: ["#000000", "#434343", "#888888"], wing: "#222" }, 
-            { stops: ["#8B4513", "#A0522D", "#DEB887"], wing: "#654321" }, 
-            { stops: ["#FFFFFF", "#F0F0F0", "#E0E0E0"], wing: "#B0B0B0" }, 
-            { stops: ["#FFFF00", "#FFFACD", "#FFD700"], wing: "#FFD700" }, 
+            { stops: ["#FF8C00", "#FFA500", "#FFD700"], wing: "#FF4500" },
+            { stops: ["#FF0000", "#FF6666", "#FFD1DC"], wing: "#B22222" },
+            { stops: ["#00FF00", "#7CFC00", "#228B22"], wing: "#228B22" },
+            { stops: ["#0000FF", "#1E90FF", "#87CEEB"], wing: "#191970" },
+            { stops: ["#000000", "#434343", "#888888"], wing: "#222" },
+            { stops: ["#8B4513", "#A0522D", "#DEB887"], wing: "#654321" },
+            { stops: ["#FFFFFF", "#F0F0F0", "#E0E0E0"], wing: "#B0B0B0" },
+            { stops: ["#FFFF00", "#FFFACD", "#FFD700"], wing: "#FFD700" },
         ];
         const colorSet = this.birdColors[Math.floor(Math.random() * this.birdColors.length)];
         this.bird = {
@@ -236,7 +266,7 @@ class FlappyBirdGame {
         window.onresize = () => this.resizeCanvas()
         this._destroyed = false
 
-        this.redFlash = 0 
+        this.redFlash = 0
 
     }
 
@@ -434,7 +464,7 @@ class FlappyBirdGame {
         this.bird.y = this.canvas.height / 2
         this.bird.velocity = 0
         this.bird.rotation = 0
-        this.randomizeBirdColor(); 
+        this.randomizeBirdColor();
         this.pipes = []
         this.particles = []
         this.score = 0
@@ -621,10 +651,10 @@ class FlappyBirdGame {
     drawBackground() {
         if (this.spriteType === "bird") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#87CEEB") 
-            gradient.addColorStop(0.5, "#b9eaff") 
-            gradient.addColorStop(0.8, "#ffeedd") 
-            gradient.addColorStop(1, "#a7d28d") 
+            gradient.addColorStop(0, "#87CEEB")
+            gradient.addColorStop(0.5, "#b9eaff")
+            gradient.addColorStop(0.8, "#ffeedd")
+            gradient.addColorStop(1, "#a7d28d")
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -663,10 +693,10 @@ class FlappyBirdGame {
             })
         } else if (this.spriteType === "octo") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#0f224e") 
-            gradient.addColorStop(0.4, "#1976a5") 
-            gradient.addColorStop(0.7, "#36c1e6") 
-            gradient.addColorStop(1, "#e0b87b") 
+            gradient.addColorStop(0, "#0f224e")
+            gradient.addColorStop(0.4, "#1976a5")
+            gradient.addColorStop(0.7, "#36c1e6")
+            gradient.addColorStop(1, "#e0b87b")
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
@@ -737,10 +767,10 @@ class FlappyBirdGame {
             }
         } else if (this.spriteType === "shinycoto") {
             const gradient = this.ctx.createLinearGradient(0, 0, 0, this.canvas.height)
-            gradient.addColorStop(0, "#0f224e") 
-            gradient.addColorStop(0.4, "#1976a5") 
-            gradient.addColorStop(0.7, "#36c1e6") 
-            gradient.addColorStop(1, "#e0b87b") 
+            gradient.addColorStop(0, "#0f224e")
+            gradient.addColorStop(0.4, "#1976a5")
+            gradient.addColorStop(0.7, "#36c1e6")
+            gradient.addColorStop(1, "#e0b87b")
             this.ctx.fillStyle = gradient
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height)
 
