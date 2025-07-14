@@ -40,11 +40,9 @@ A stunning, modern, and open-source reimagining of Flappy Bird, built for the we
 - `README.md` — This file
 
 ## ✨ Recent Highlights
-- Canvas-based live sprite previews in character selection
-- Unique effects and backgrounds for each character
-- Improved mobile and desktop experience
-- Bugfix: No more accidental game over on rapid input
-- Unified and enhanced Shiny Octo character
+- Updated start screen instructions: Now says "Tap or use UP ARROW key to fly!" for clarity
+- Added random bird color feature: bird color is now randomly selected at game start and restart
+- Added background music with mute toggle functionality
 
 ## 🤝 Contributing
 Open to pull requests and suggestions! If you find a bug or have an idea, open an issue or PR.
